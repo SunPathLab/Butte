@@ -172,7 +172,14 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 }
 
 
-
+#' Use linear programming to solve the bounds of Ta
+#'
+#' Yunong: add some description here
+#'
+#' @param q \hat{q} estimated from data
+#' @param possible_histories matrices of possible SCNA-SSNV histories 
+#' @return the lower and upper bounds of the time duration for the last stage
+#' @importFrom lpSolve lp
 .lpbounds <- function(q, possible_histories) {   #This is taken from Yunong's code   
 
     lowbounds = vector()
