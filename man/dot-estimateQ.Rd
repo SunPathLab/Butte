@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimateQ.R
 \name{.estimateQ}
 \alias{.estimateQ}
-\title{EM algorithm to calculate \hat{q}}
+\title{EM algorithm to calculate q}
 \usage{
 .estimateQ(
   x,

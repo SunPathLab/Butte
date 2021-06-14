@@ -7,7 +7,7 @@
 .lpbounds(q, possible_histories)
 }
 \arguments{
-\item{q}{\hat{q} estimated from data}
+\item{q}{q estimated from data}
 
 \item{possible_histories}{matrices of possible SCNA-SSNV histories}
 }

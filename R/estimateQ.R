@@ -1,4 +1,4 @@
-#' EM algorithm to calculate \hat{q}
+#' EM algorithm to calculate q
 #'
 #' Estimate the proportion the proportions of SSNVs at each allele state
 #' from sequencing data.

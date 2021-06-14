@@ -176,7 +176,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #'
 #' Yunong: add some description here
 #'
-#' @param q \hat{q} estimated from data
+#' @param q q estimated from data
 #' @param possible_histories matrices of possible SCNA-SSNV histories 
 #' @return the lower and upper bounds of the time duration for the last stage
 #' @importFrom lpSolve lp
