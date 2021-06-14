@@ -54,9 +54,10 @@ cnmutHistory <- function(nt, nb) {
 
         f.con1 <- matrix(c(0, 2, 4,
                            2, 1, 0), nrow = 2, byrow = TRUE)
-        f.con2 <- matrix(c(0, 4,
-                           2, 0), nrow = 2, byrow = TRUE)          #syn gain
-        cnmut = list(f.con1, f.con2)
+        #f.con2 <- matrix(c(0, 4,
+        #                   2, 0), nrow = 2, byrow = TRUE)          #syn gain
+        #cnmut = list(f.con1, f.con2)
+        cnmut = list(f.con1)
         
     } else if (nt == 5 & nb == 0){
         
