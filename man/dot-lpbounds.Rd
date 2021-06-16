@@ -4,12 +4,14 @@
 \alias{.lpbounds}
 \title{Use linear programming to solve the bounds of Ta}
 \usage{
-.lpbounds(q, possible_histories)
+.lpbounds(q, possible_histories, scost = 100)
 }
 \arguments{
 \item{q}{q estimated from data}
 
 \item{possible_histories}{matrices of possible SCNA-SSNV histories}
+
+\item{scost}{the cost for slack variables (default 100)}
 }
 \value{
 the lower and upper bounds of the time duration for the last stage

@@ -13,7 +13,7 @@
 #' @return list: timing result; timing table (for visualization) and merged CNA data frame
 #' @export
 scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="pubOrSub",
-                      skipchunk = 19, mmut=10, qmethod="fullMLE") {
+                      skipchunk = 19, mmut=10, qmethod="fullMLE", B=100) {
 
     timingInput = cnmutData(scnaFile=scnaFile, ssnvFile=ssnvFile, skipchunk=skipchunk)
     cnvA2   = timingInput[[1]]
@@ -81,7 +81,7 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
         # call Butte for estimating timing
         x <- Butte(x=onlyMuts$t_alt_count, m=onlyMuts$t_depth, history=hmatrix, qmethod=qmethod,
                    nt=cntotal, nb=cnminor, minMutations=mmut, type=cntype,
-                   purity=purity, bootstrapCI="bootstrap", B=100)
+                   purity=purity, bootstrapCI="bootstrap", B=B)
         
         x = c(x, cnid=i, cnchrom=cnchrom, cnstart=cnstart, cnend=cnend,
               cnmajor=cnmajor, cnminor=cnminor, cnLOHcall=cnLOHcall)

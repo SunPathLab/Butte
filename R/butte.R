@@ -177,13 +177,15 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #' Yunong: add some description here
 #'
 #' @param q q estimated from data
-#' @param possible_histories matrices of possible SCNA-SSNV histories 
+#' @param possible_histories matrices of possible SCNA-SSNV histories
+#' @param scost the cost for slack variables (default 100)
 #' @return the lower and upper bounds of the time duration for the last stage
 #' @importFrom lpSolve lp
-.lpbounds <- function(q, possible_histories) {   #This is taken from Yunong's code   
+.lpbounds <- function(q, possible_histories, scost=100) {   #modified from Yunong's code with relax  
 
-    lowbounds = vector()
-    uppbounds = vector()
+    lbs = vector()
+    ubs = vector()
+    nrx = vector()
     for(i in seq(possible_histories)) {
 
         A = possible_histories[[i]]
@@ -196,11 +198,19 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         M = rbind(M, rep(1,ncol(A)))
         b = c(b,1)
 
+        #M add two columns
+        relaxCols = diag(dim(M)[1])
+        relaxCols = relaxCols[,rep(1:ncol(relaxCols), each=2)]
+        relaxCols[,seq(2,dim(relaxCols)[2], by=2)] =  relaxCols[,seq(2,dim(relaxCols)[2], by=2)]*-1
+        M = cbind(M, relaxCols)
+        
         #notice that, the objective function we want to optimize is
         # f(pi) = [0,0,0,0,0,0 ......,0, 1] * pi, which equals to 
         # the last time interval pi_n
         #define objective function  (represent coefficients in a vector)
         f.obj <- c(rep(0,ncol(A)-1),1)
+        f.obj <- c(f.obj, rep(scost, dim(M)[1]*2))  #relax the model
+        
         #define constraints
         f.con <- M
         f.dir <- rep("==",nrow(M))
@@ -208,16 +218,27 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         
         #message(paste0(i,":\n"))
         lowbound = lpSolve::lp("min", f.obj, f.con, f.dir, f.rhs)
+        lb = lowbound$objval - sum(tail(lowbound$solution,dim(M)[1]*2) * scost)
+        n_relax = length(which(tail(lowbound$solution,dim(M)[1]*2) > 0))
+
+        f.obj <- c(rep(0,ncol(A)-1),1)
+        f.obj <- c(f.obj, rep(-scost, dim(M)[1]*2))  #relax the model
         uppbound = lpSolve::lp("max", f.obj, f.con, f.dir, f.rhs)
+        ub = uppbound$objval - sum(tail(uppbound$solution,dim(M)[1]*2) * scost * -1)
+        n_relax = n_relax + length(which(tail(uppbound$solution,dim(M)[1]*2) > 0))
+        
         if (sum(lowbound$solution) > 0) {
-            lowbounds = append(lowbounds, lowbound$solution[length(lowbound$solution)])
-            names(lowbounds)[length(lowbounds)] = i
+            lbs = append(lbs, lb)
+            names(lbs)[length(lbs)] = i
         }
         if (sum(uppbound$solution) > 0) {
-            uppbounds = append(uppbounds, uppbound$solution[length(uppbound$solution)])
-            names(uppbounds)[length(uppbounds)] = i
+            ubs = append(ubs, ub)
+            names(ubs)[length(ubs)] = i
+            nrx = append(nrx, n_relax)
+            names(nrx)[length(nrx)] = i
         }
     }
-    #return(list(lower=lowbounds, upper=uppbounds))
-    return(c(min(lowbounds), max(uppbounds)))
+
+    #return the min and max only for models with minimum number of non-zero slack variables
+    return(c(min(lbs[which(nrx == min(nrx))]), max(ubs[which(nrx == min(nrx))])))
 }
