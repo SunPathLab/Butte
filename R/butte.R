@@ -181,11 +181,12 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #' @param scost the cost for slack variables (default 100)
 #' @return the lower and upper bounds of the time duration for the last stage
 #' @importFrom lpSolve lp
-.lpbounds <- function(q, possible_histories, scost=100) {   #modified from Yunong's code with relax  
+.lpbounds <- function(q, possible_histories, scost=100) {   #modified from Yunong's code with slack variable  
 
     lbs = vector()
     ubs = vector()
-    nrx = vector()
+    nrx = vector()  #number of slack variable with non-zero coefficients
+    tcc = vector()  #total cost coefficients
     for(i in seq(possible_histories)) {
 
         A = possible_histories[[i]]
@@ -219,26 +220,31 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         #message(paste0(i,":\n"))
         lowbound = lpSolve::lp("min", f.obj, f.con, f.dir, f.rhs)
         lb = lowbound$objval - sum(tail(lowbound$solution,dim(M)[1]*2) * scost)
+        if (abs(lb) < 1e-10) lb = 0
         n_relax = length(which(tail(lowbound$solution,dim(M)[1]*2) > 0))
-
+        t_costc = sum(tail(lowbound$solution,dim(M)[1]*2))
+        
         f.obj <- c(rep(0,ncol(A)-1),1)
         f.obj <- c(f.obj, rep(-scost, dim(M)[1]*2))  #relax the model
         uppbound = lpSolve::lp("max", f.obj, f.con, f.dir, f.rhs)
         ub = uppbound$objval - sum(tail(uppbound$solution,dim(M)[1]*2) * scost * -1)
+        if (abs(ub) < 1e-10) ub = 0
         n_relax = n_relax + length(which(tail(uppbound$solution,dim(M)[1]*2) > 0))
+        t_costc = t_costc + sum(tail(uppbound$solution,dim(M)[1]*2))
         
-        if (sum(lowbound$solution) > 0) {
+        if (sum(lowbound$solution[1:dim(A)[2]]) > 0) {
             lbs = append(lbs, lb)
             names(lbs)[length(lbs)] = i
         }
-        if (sum(uppbound$solution) > 0) {
+        if (sum(uppbound$solution[1:dim(A)[2]]) > 0) {
             ubs = append(ubs, ub)
             names(ubs)[length(ubs)] = i
             nrx = append(nrx, n_relax)
             names(nrx)[length(nrx)] = i
+            tcc = append(tcc, t_costc)
+            names(tcc)[length(tcc)] = i
         }
     }
 
-    #return the min and max only for models with minimum number of non-zero slack variables
-    return(c(min(lbs[which(nrx == min(nrx))]), max(ubs[which(nrx == min(nrx))])))
+    return(c(min(lbs[which(tcc == min(tcc))]), max(ubs[which(tcc == min(tcc))])))
 }
