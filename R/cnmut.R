@@ -10,7 +10,7 @@
 #' @param mmut minimum number of mutations for running timing analysis
 #' @param qmethod the method for estimating q (probabilities of a randomly acquired mutation having allele state of aj/Nt)
 #' @param skipchunk segments with number of data points (probes) no more than this number will be skipped 
-#' @return list: timing result; timing table (for visualization) and merged CNA data frame
+#' @return list: timing result; timing table (for visualization) and merged CNA data frame. For butte cases (non-identifiable), pi[1] is the lower bound, and pi[2] is the upper bound. piCI[1,] and piCI[2,] are the bootstrapped confidence interval for the two bounds, respectively.
 #' @export
 scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="pubOrSub",
                       skipchunk = 19, mmut=10, qmethod="fullMLE", B=100) {
@@ -93,6 +93,7 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
         currentline = c(cnchrom, cnstart, cnend, cnmajor, cnminor, x$summaryTable[1], cntype,
                         as.numeric(x$pi[1]), as.numeric(x$piCI[1,1]), as.numeric(x$piCI[1,2]),
                         as.numeric(x$pi[K]), as.numeric(x$piCI[K,1]), as.numeric(x$piCI[K,2]))
+        
         names(currentline) = c("chrom", "loc.start", "loc.end", "major_cn", "minor_cn", "nmut", "type",
                                "p0","p0l","p0h","pK","pKl","pKh")
         
@@ -100,8 +101,8 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
         if (length(resultTable) == 0) {
             resultTable = currentline
         } else {
+            # combine the result into a data.frame
             resultTable = rbind(resultTable, currentline)
-            #rbind.data.frame(df, data.frame(ColNam = data, Col2 = data), stringsAsFactors = FALSE)  #check later 
         }
         li=li+1
     }
