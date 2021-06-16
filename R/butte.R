@@ -220,7 +220,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         #message(paste0(i,":\n"))
         lowbound = lpSolve::lp("min", f.obj, f.con, f.dir, f.rhs)
         lb = lowbound$objval - sum(tail(lowbound$solution,dim(M)[1]*2) * scost)
-        if (abs(lb) < 1e-10) lb = 0
+        if (abs(lb) < 1e-6) lb = 0
         n_relax = length(which(tail(lowbound$solution,dim(M)[1]*2) > 0))
         t_costc = sum(tail(lowbound$solution,dim(M)[1]*2))
         
@@ -228,7 +228,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         f.obj <- c(f.obj, rep(-scost, dim(M)[1]*2))  #relax the model
         uppbound = lpSolve::lp("max", f.obj, f.con, f.dir, f.rhs)
         ub = uppbound$objval - sum(tail(uppbound$solution,dim(M)[1]*2) * scost * -1)
-        if (abs(ub) < 1e-10) ub = 0
+        if (abs(ub) < 1e-6) ub = 0
         n_relax = n_relax + length(which(tail(uppbound$solution,dim(M)[1]*2) > 0))
         t_costc = t_costc + sum(tail(uppbound$solution,dim(M)[1]*2))
         
