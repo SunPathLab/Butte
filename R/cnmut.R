@@ -37,7 +37,7 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
 
         #skip SCNAs with Nt >= 8
         if (cntotal >= 8 | (cntotal == 2 & cnminor == 1) | (cntotal == 1 & cnminor == 0)) {
-            message(paste("skip cnv", i, "Nt >= 8 or normal diploid", dim(chopped)[1], sep=" "))
+            message(paste("skip cnv", i, paste0(cntotal, ":", cnminor), sep=" "))
             next
         }
         
