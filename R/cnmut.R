@@ -36,7 +36,7 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
         message(paste(cnchrom, cnstart, cnend, cntotal, cnminor, sep="\t"))
 
         #skip SCNAs with Nt >= 8
-        if (cntotal >= 8 | (cntotal == 2 & cnminor == 1) | (cntotal == 1 & cnminor == 0)) {
+        if (cntotal >= 8 | (cntotal == 2 & cnminor == 1) | (cntotal <= 1 & cnminor == 0)) {
             message(paste("skip cnv", i, paste0(cntotal, ":", cnminor), sep=" "))
             next
         }
