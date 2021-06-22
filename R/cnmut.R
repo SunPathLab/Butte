@@ -138,7 +138,7 @@ ssnvInput <- function(snvFile) {
     if (! file.exists(snvFile)) {
         stop("ssnvFile needs to be provided!")
     }
-    ssnv = read.delim(snvFile, stringsAsFactors=FALSE)
+    ssnv = read.delim(snvFile, stringsAsFactors=FALSE, check.names=FALSE)
     #sort by chr and coordinates
     ssnv = dplyr::arrange(ssnv, chr, pos)
     return(ssnv)
@@ -214,7 +214,7 @@ mergeCNA <- function(cnFile, skipchunk = 19, correctMale = FALSE) {
         stop("cnFile (titan segmentation file) not found!")
     }
     message(cnFile)
-    cnvA = read.delim(cnFile, stringsAsFactors=FALSE)
+    cnvA = read.delim(cnFile, stringsAsFactors=FALSE, check.names=FALSE)
     cnvA = cnvA[which(cnvA$num.mark > skipchunk),]                               #skip two few marks
     cp2 <- c(which(cnvA$logcopynumberratio[-1] != cnvA$logcopynumberratio[-nrow(cnvA)] |
                        cnvA$chrom[-1] != cnvA$chrom[-nrow(cnvA)] |
