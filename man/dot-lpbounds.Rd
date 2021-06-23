@@ -2,7 +2,7 @@
 % Please edit documentation in R/butte.R
 \name{.lpbounds}
 \alias{.lpbounds}
-\title{Use linear programming to solve the bounds of Ta}
+\title{Use linear programming to solve the bounds of TK}
 \usage{
 .lpbounds(q, possible_histories, scost = 100)
 }
@@ -17,9 +17,9 @@
 the lower and upper bounds of the time duration for the last stage
 }
 \description{
-This function estimate the bounds of Ta, which is the last time interval in the tumor cell envolution
+This function estimate the bounds of TK, which is the last time interval in the tumor cell envolution
 history. Based on different possible history given a copy number ratio, the function makes use of 
-linear programming to minimize and maximize Ta. The objective function of the optimization if f(x) = ta, which
+linear programming to minimize and maximize TK. The objective function of the optimization if f(x) = ta, which
 can be written as [0 0 0 0 0 ... 0 1]T*[t1 t2 t3 ... ta]. The first part of constraints are given by (A-qs')t = 0, 
 where s' refers to the transpose vector calculated by rowSum(A). The second part of constraints is the 
 convexity of time vector t. Each element of t refers to a relative fraction of time. 
@@ -31,6 +31,6 @@ Then the feasibility of the solution region of the linear programming problem wi
 is optimized previously from data. The uncertainty of q can make the solution space infeasible. So we add some 
 slack variables to elasticize the linear programming problem. 
 For details, please check: http://web.mit.edu/lpsolve/doc/Infeasible.htm
-This elasticizing method will find the approximate bounds of Ta close to the constraints.
+This elasticizing method will find the approximate bounds of TK close to the constraints.
 "scost" is the argument adjusting the penalty of the additional slack variables.
 }

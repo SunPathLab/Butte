@@ -20,7 +20,7 @@
 Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
                   type=c("identifiable","butte"), seqError=0, bootstrapCI=NULL,
                   B=500, CILevel=0.9, purity=1, verbose=TRUE,
-                  returnAssignments=FALSE, minMutations=10, init=NULL,
+                  returnAssignments=TRUE, minMutations=10, init=NULL,
                   maxiter=100, tol=0.0001, mutationId=1:length(x),...) {
 
     qmethod <- match.arg(qmethod)
@@ -119,9 +119,9 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
             else if ( type == "butte" ) {
                 # set to zero for too low mutations
                 q2 = output$q
-                numq = round(q2 * nMuts)
-                q2[which(q2 < 0.01 & numq < 5)] = 0
-                q2 = q2/sum(q2)
+                #numq = round(q2 * nMuts)              #testing force zero
+                #q2[which(q2 < 0.01 & numq < 5)] = 0   #testing force zero
+                #q2 = q2/sum(q2)                       #testing force zero
 
                 buttebounds = try(.lpbounds(q = q2, possible_histories = history))
                 piEst <- buttebounds
@@ -161,7 +161,10 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
             #colnames(ci)<-c("lower","upper")
             output$piCI <- ci
             #selected elements for output
-            output <- output[c("pi","piCI","q","perLocationProb","optimDetails")] 
+            if(!returnAssignments)
+                output <- output[c("pi","piCI","q","optimDetails")]
+            else
+                output <- output[c("pi","piCI","q","perLocationProb","optimDetails")]
         } else {
             output<-output[c("pi","q","perLocationProb","optimDetails")]
         }
@@ -172,11 +175,11 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 }
 
 
-#' Use linear programming to solve the bounds of Ta
+#' Use linear programming to solve the bounds of TK
 #'
-#' This function estimate the bounds of Ta, which is the last time interval in the tumor cell envolution
+#' This function estimate the bounds of TK, which is the last time interval in the tumor cell envolution
 #' history. Based on different possible history given a copy number ratio, the function makes use of 
-#' linear programming to minimize and maximize Ta. The objective function of the optimization if f(x) = ta, which
+#' linear programming to minimize and maximize TK. The objective function of the optimization if f(x) = ta, which
 #' can be written as [0 0 0 0 0 ... 0 1]T*[t1 t2 t3 ... ta]. The first part of constraints are given by (A-qs')t = 0, 
 #' where s' refers to the transpose vector calculated by rowSum(A). The second part of constraints is the 
 #' convexity of time vector t. Each element of t refers to a relative fraction of time. 
@@ -187,7 +190,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #' is optimized previously from data. The uncertainty of q can make the solution space infeasible. So we add some 
 #' slack variables to elasticize the linear programming problem. 
 #' For details, please check: http://web.mit.edu/lpsolve/doc/Infeasible.htm
-#' This elasticizing method will find the approximate bounds of Ta close to the constraints.
+#' This elasticizing method will find the approximate bounds of TK close to the constraints.
 #' "scost" is the argument adjusting the penalty of the additional slack variables.
 #'
 #' @param q q estimated from data
@@ -195,7 +198,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #' @param scost the cost for slack variables (default 100)
 #' @return the lower and upper bounds of the time duration for the last stage
 #' @importFrom lpSolve lp
-.lpbounds <- function(q, possible_histories, scost=100) {   #modified from Yunong's code with slack variable  
+.lpbounds <- function(q, possible_histories, scost=100) {   #modified from Yunong's code with slack variables  
 
     lbs = vector()
     ubs = vector()

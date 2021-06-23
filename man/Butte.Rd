@@ -18,7 +18,7 @@ Butte(
   CILevel = 0.9,
   purity = 1,
   verbose = TRUE,
-  returnAssignments = FALSE,
+  returnAssignments = TRUE,
   minMutations = 10,
   init = NULL,
   maxiter = 100,
