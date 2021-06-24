@@ -47,7 +47,7 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
             chopped = chopped[which(chopped[,pubOrSub] == "public"),]                                    
         } else {                 #focus on the clonal ssnvs in the corresponding sample
             chopped = chopped[which(chopped[,paste(sn,"ccf",sep="")] +
-                                    2.58*chopped[,paste(sn,"ccfSD",sep="")] >= 1),]
+                                    1.96*chopped[,paste(sn,"ccfSD",sep="")] >= 1),]
         }
 
         #skip SCNAs containing less than mmut mutations
