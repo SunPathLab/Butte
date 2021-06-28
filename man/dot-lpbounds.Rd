@@ -4,7 +4,7 @@
 \alias{.lpbounds}
 \title{Use linear programming to solve the bounds of TK}
 \usage{
-.lpbounds(q, possible_histories, scost = 100)
+.lpbounds(q, possible_histories, scost = 100, p0 = FALSE)
 }
 \arguments{
 \item{q}{q estimated from data}

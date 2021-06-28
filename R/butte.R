@@ -124,10 +124,16 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
                 #q2 = q2/sum(q2)                       #testing force zero
 
                 buttebounds = try(.lpbounds(q = q2, possible_histories = history))
-                piEst <- buttebounds
-                piEst[!is.finite(piEst)] <- NA
-                names(piEst) <- c("lower", "upper")
-                output$pi <- piEst
+                pKEst <- buttebounds
+                pKEst[!is.finite(pKEst)] <- NA
+                names(pKEst) <- c("pKlower", "pKupper")
+
+                buttebounds.p0 = try(.lpbounds(q = q2, possible_histories = history, p0=TRUE))   #get initiation time bounds as well
+                p0Est <- buttebounds.p0
+                p0Est[!is.finite(p0Est)] <- NA
+                names(p0Est) <- c("p0lower", "p0upper")                                          #swap p0 to facilitate output conversion
+                
+                output$pi <- c(p0Est[2:1], pKEst)
             }
             
         } else {   #if ERROR occurred when estimating q
@@ -198,7 +204,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #' @param scost the cost for slack variables (default 100)
 #' @return the lower and upper bounds of the time duration for the last stage
 #' @importFrom lpSolve lp
-.lpbounds <- function(q, possible_histories, scost=100) {   #modified from Yunong's code with slack variables  
+.lpbounds <- function(q, possible_histories, scost=100, p0 = FALSE) {   #modified from Yunong's code with slack variables  
 
     lbs = vector()
     ubs = vector()
@@ -241,7 +247,10 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         n_relax = length(which(tail(lowbound$solution,dim(M)[1]*2) > 0))
         t_costc = sum(tail(lowbound$solution,dim(M)[1]*2))
         
-        f.obj <- c(rep(0,ncol(A)-1),1)
+        f.obj <- c(rep(0,ncol(A)-1),1)         #calculate bounds for arrival time
+        if (p0)                                #calculate bounds for initiation time
+            f.obj <- c(1, rep(0,ncol(A)-1))
+
         f.obj <- c(f.obj, rep(-scost, dim(M)[1]*2))  #relax the model
         uppbound = lpSolve::lp("max", f.obj, f.con, f.dir, f.rhs)
         ub = uppbound$objval - sum(tail(uppbound$solution,dim(M)[1]*2) * scost * -1)

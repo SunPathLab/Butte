@@ -91,8 +91,8 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
 
         K = length(x$pi)
         currentline = c(cnchrom, cnstart, cnend, cnmajor, cnminor, x$summaryTable[1], cntype,
-                        as.numeric(x$pi[1]), as.numeric(x$piCI[1,1]), as.numeric(x$piCI[1,2]),
-                        as.numeric(x$pi[K]), as.numeric(x$piCI[K,1]), as.numeric(x$piCI[K,2]))
+                        as.numeric(x$pi[1]), as.numeric(x$piCI[1,1]), as.numeric(x$piCI[1,2]),      #time of the first stage
+                        as.numeric(x$pi[K]), as.numeric(x$piCI[K,1]), as.numeric(x$piCI[K,2]))      #time of the last stage
         
         names(currentline) = c("chrom", "loc.start", "loc.end", "major_cn", "minor_cn", "nmut", "type",
                                "p0","p0l","p0h","pK","pKl","pKh")
