@@ -127,6 +127,7 @@ scnaInput <- function(scnaFile, skipchunk=19) {
     return(scna)    
 }
 
+
 #' Reading and sorting ssnvFile 
 #' 
 #'
@@ -143,6 +144,7 @@ ssnvInput <- function(snvFile) {
     ssnv = dplyr::arrange(ssnv, chr, pos)
     return(ssnv)
 }
+
 
 #' Generate the SCNA SSNV input for running butte 
 #'
@@ -195,6 +197,10 @@ cnmutData <- function(scnaFile, ssnvFile, skipchunk = 19) {
     return(list(cnvA2, sampAB, cnvHits, snvHits))
 
 }
+
+
+
+
 
 
 

@@ -204,6 +204,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #' @param scost the cost for slack variables (default 100)
 #' @return the lower and upper bounds of the time duration for the last stage
 #' @importFrom lpSolve lp
+#' @export
 .lpbounds <- function(q, possible_histories, scost=100, p0 = FALSE) {   #modified from Yunong's code with slack variables  
 
     lbs = vector()
@@ -232,7 +233,9 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         # f(pi) = [0,0,0,0,0,0 ......,0, 1] * pi, which equals to 
         # the last time interval pi_n
         #define objective function  (represent coefficients in a vector)
-        f.obj <- c(rep(0,ncol(A)-1),1)
+        f.obj <- c(rep(0,ncol(A)-1),1)         #calculate lower bounds for arrival time
+        if (p0)                                #calculate lower bounds for initiation time
+            f.obj <- c(1, rep(0,ncol(A)-1))
         f.obj <- c(f.obj, rep(scost, dim(M)[1]*2))  #relax the model
         
         #define constraints
@@ -247,11 +250,11 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         n_relax = length(which(tail(lowbound$solution,dim(M)[1]*2) > 0))
         t_costc = sum(tail(lowbound$solution,dim(M)[1]*2))
         
-        f.obj <- c(rep(0,ncol(A)-1),1)         #calculate bounds for arrival time
-        if (p0)                                #calculate bounds for initiation time
+        f.obj <- c(rep(0,ncol(A)-1),1)         #calculate upper bounds for arrival time
+        if (p0)                                #calculate upper bounds for initiation time
             f.obj <- c(1, rep(0,ncol(A)-1))
-
         f.obj <- c(f.obj, rep(-scost, dim(M)[1]*2))  #relax the model
+        
         uppbound = lpSolve::lp("max", f.obj, f.con, f.dir, f.rhs)
         ub = uppbound$objval - sum(tail(uppbound$solution,dim(M)[1]*2) * scost * -1)
         if (abs(ub) < 1e-6) ub = 0
