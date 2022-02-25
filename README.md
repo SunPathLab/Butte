@@ -16,11 +16,19 @@ BoUnds of Time Till Expansion, a computational framework to investigate the SCNA
 
 ## Installation
 
+In R environment, make sure the following dependencies are installed:
+```sh
+lpSolve
+GenomicRanges
+IRanges
+S4Vectors
+dplyr
+```
+
+then
 ```sh
 library(devtools)
 install_github("SunPathLab/Butte")
 ```
 
-Example:
-```sh
-```
+
