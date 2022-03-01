@@ -1,15 +1,16 @@
 # Butte
 
 ```
-                                         ___________
-                                         |    7    |
-                                         |    6    |
-                                         |    5    |
-                                         |    4    |
-                                         |CN  3    |
-                                        /     2     \ 
-_______________________________________/      1      \__________
+                                           ___________
+                                           |    7    | __
+                                           |    6    | ||
+            ________                       |    5    | ||
+            |      |                       |    4    | ||
+           |       |                       |CN  3    ~~ |
+          /         \                     /     2        \ 
+_________/           \___________________/      1         \__________
 ```
+
 
 BoUnds of Time Till Expansion, a computational framework to investigate the SCNA arrival time in the somatic evolution toward the most recent common ancestor of tumor sample(s).
 
@@ -51,7 +52,7 @@ Format of input files:
 ## Reference
 
 Zicheng Wang, Yunong Xia, Lauren Mills, Athanasios N. Nikolakopoulos, Nicole Maeser, Jason M. Sheltzer and Ruping Sun (2022)
-*Evolving copy number gains promote tumor expansion and bolster mutational diversification*
+**Evolving copy number gains promote tumor expansion and bolster mutational diversification**
 [Paperlink](link to be added)
 
 
