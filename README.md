@@ -31,4 +31,17 @@ library(devtools)
 install_github("SunPathLab/Butte")
 ```
 
+Example:
+```sh
+
+```
+
+
+
+## Reference
+
+Zicheng Wang, Yunong Xia, Lauren Mills, Athanasios N. Nikolakopoulos, Nicole Maeser, Jason M. Sheltzer and Ruping Sun (2022)
+"Evolving copy number gains promote tumor expansion and bolster mutational diversification"
+[comment]: <> ([*PLOS ONE* 12(9): e0184229](https://doi.org/10.1371/journal.pone.0184229))
+
 
