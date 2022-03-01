@@ -31,7 +31,7 @@ library(devtools)
 install_github("SunPathLab/Butte")
 ```
 
-Example:
+## Run
 ```sh
 library(Butte)
 
