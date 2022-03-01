@@ -33,10 +33,20 @@ install_github("SunPathLab/Butte")
 
 Example:
 ```sh
+library(Butte)
 
+#run scna Timing
+butte.res = scnaTiming(scnaFile=scnaFile, ssnvFile=ssnvFile, sn=sampleName, outname=sampleName,
+                                                   public=TRUE, skipchunk = 100, B=500, pubOrSub="pubOrSub")
+
+#save results
+saveRDS(butte.res, file=paste0(outdir, "/butte.res.", sampleName, ".rds"))
+write.table(butte.res[[2]], file=paste0(outdir, "/butte.tab.", sampleName, ".tsv"), sep="\t", quote=F, row.names=F)
 ```
 
-
+Format of input files:
+```sh
+```
 
 ## Reference
 
