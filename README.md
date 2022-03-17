@@ -1,4 +1,4 @@
-# Butte [![Butte][badge_butte]]
+# Butte ![Butte][badge_butte]
 
 
 ```
