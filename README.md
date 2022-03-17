@@ -1,4 +1,4 @@
-# Butte [![Cult Of Martians][badge_butte]]
+# Butte [![Butte][badge_butte]]
 
 
 ```
@@ -57,4 +57,4 @@ Zicheng Wang, Yunong Xia, Lauren Mills, Athanasios N. Nikolakopoulos, Nicole Mae
 [Paperlink](link to be added)
 
 
-[cult-img]:      assets/badges/badge_butte.svg
+[badge_butte]:      assets/badges/badge_butte.svg
