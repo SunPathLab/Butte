@@ -1,11 +1,11 @@
 ## Model Description:
 The tumor starts with a single tumor-initiating cell.\
-The tumor-initiating cell and its descendants with only passenger mutations form the *Type 0* population. \
-*Type 0* cells give birth at a rate of `a_0` and die at a rate of `b_0`. \
-*Type 0* cells mutate to *Type 1* cells at a rate of `u_1`. \
-*Type 1* cells give birth at a rate of `a_1` and die at a rate of `b_1`.\ 
-Both *Type 0* and *Type 1* cells accumulate passenger mutations at a rate of `u_0`.\ 
-This package simulates the number of passenger mutations shared by more than a certain percentage (denoted by a threshold) of descendents of the first *Type 1* cell when the size of its living descendents reaches 10,000.
+The tumor-initiating cell and its descendants with only passenger mutations form the **Type 0** population. \
+**Type 0** cells give birth at a rate of `a_0` and die at a rate of `b_0`. \
+**Type 0** cells mutate to **Type 1** cells at a rate of `u_1`. \
+**Type 1** cells give birth at a rate of `a_1` and die at a rate of `b_1`.\ 
+Both **Type 0** and **Type 1** cells accumulate passenger mutations at a rate of `u_0`.\ 
+This package simulates the number of passenger mutations shared by more than a certain percentage (denoted by a threshold) of descendents of the first **Type 1** cell when the size of its living descendents reaches 10,000.
 
 
 ## Run (in Matlab environment):
