@@ -211,6 +211,8 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
     ubs = vector()
     nrx = vector()  #number of slack variable with non-zero coefficients
     tcc = vector()  #total cost coefficients
+    q[which(q < 1e-5)] = 0   #when some q is exteremely small, set it to 0
+    q = q/sum(q)
     for(i in seq(possible_histories)) {
 
         A = possible_histories[[i]]
