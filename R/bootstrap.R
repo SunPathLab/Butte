@@ -34,8 +34,12 @@ bootstrapButte <- function(eventOrdering, B, type=c("parametric","bootstrap"),  
     
     N <- length(m)
     
-    eventFunctionNames<-c("history","nt","nb","type","qmethod","seqError","purity",
+    # eventFunctionNames<-c("history","nt","nb","type","qmethod","seqError","purity",
+    #                       "minMutations","init","maxiter","tol")
+    
+    eventFunctionNames<-c("nt","nb","qmethod","seqError","purity",
                           "minMutations","init","maxiter","tol")
+    
     requiredNames<-c("alleleSet",eventFunctionNames)
     
     if(!all(requiredNames%in%names(call)))

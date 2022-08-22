@@ -79,8 +79,8 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
         message(cntype)
 
         # call Butte for estimating timing
-        x <- Butte(x=onlyMuts$t_alt_count, m=onlyMuts$t_depth, history=hmatrix, qmethod=qmethod,
-                   nt=cntotal, nb=cnminor, minMutations=mmut, type=cntype,
+        x <- Butte(x=onlyMuts$t_alt_count, m=onlyMuts$t_depth, qmethod=qmethod,
+                   nt=cntotal, nb=cnminor, minMutations=mmut,
                    purity=purity, bootstrapCI="bootstrap", B=B)
         
         x = c(x, cnid=i, cnchrom=cnchrom, cnstart=cnstart, cnend=cnend,

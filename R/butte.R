@@ -9,23 +9,21 @@
 #'
 #' @param x vector of number of reads supporting SSNVs
 #' @param m vector of total read depth for SSNVs
-#' @param history list of possible histories returned by cnmutHistory
 #' @param nt total copy number
 #' @param nb copy number of the minor allele
 #' @param qmethod suggest to use fullMLE, which is more accurate
-#' @param type choose "identifiable" for SCNA 2:0 3:1 3:0 4:1, and "butte" otherwise
 #' @param bootstrapCI set to "bootstrap" if non-parametric; or "parametric" 
 #' @return A list of possible matrices
 #' @export
-Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
-                  type=c("identifiable","butte"), seqError=0, bootstrapCI=NULL,
+Butte <- function(x, m, nt, nb, qmethod=c("fullMLE","partialMLE"),
+                  seqError=0, bootstrapCI=NULL,
                   B=500, CILevel=0.9, purity=1, verbose=TRUE,
                   returnAssignments=TRUE, minMutations=10, init=NULL,
                   maxiter=100, tol=0.0001, mutationId=1:length(x),...) {
 
     qmethod <- match.arg(qmethod)
     doCI <- !is.null(bootstrapCI)
-    type <- match.arg(type)
+    #type <- match.arg(type)
 
     nMuts<-length(x)
 
@@ -40,6 +38,18 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
     
     if(returnAssignments) returnData <- TRUE
     else returnData <- FALSE
+    
+    
+    # Find whether the history is identifiable
+    # group1: an unique and identifiable history matrix A
+    history = cnmutHistory(nt = nt, nb = nb)
+    if (length(history) == 1 & dim(history[[1]])[1] == dim(history[[1]])[2])  #2:0 3:1 3:0 4:1
+      type = "identifiable"
+    
+    # group2: the other does not have identifiable history, or there are mulitple A
+    else
+      type = "butte"
+    
     
     A <- history[[1]]  #use the first history to calculate n steps
     
