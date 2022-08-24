@@ -11,7 +11,9 @@
 #' @param m vector of total read depth for SSNVs
 #' @param nt total copy number
 #' @param nb copy number of the minor allele
+#' @param history a list of possible evolutionary history matrices, see also function "cnmutHistory"
 #' @param qmethod suggest to use fullMLE, which is more accurate
+#' @param type set it to be either "identifiable" or "butte", or leave it unset
 #' @param seqError sequencing errors 
 #' @param bootstrapCI set to "bootstrap" if non-parametric; or "parametric". This specify the confidence interval method. NULL if do not want to calculate CI
 #' @param B  the number of bootstrapping samples
@@ -204,7 +206,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 }
 
 
-#' Use linear programming to solve the bounds of TK
+#' Use linear programming to solve the bounds of TK or T0
 #'
 #' This function estimate the bounds of TK, which is the last time interval in the tumor cell envolution
 #' history. Based on different possible history given a copy number ratio, the function makes use of 
@@ -223,8 +225,9 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
 #' "scost" is the argument adjusting the penalty of the additional slack variables.
 #'
 #' @param q q estimated from data
-#' @param possible_histories matrices of possible SCNA-SSNV histories
+#' @param possible_histories matrices of possible SCNA-SSNV histories, see also function "cnmutHistory"
 #' @param scost the cost for slack variables (default 100)
+#' @param p0 logical, if TRUE, the upper bounds for T0 will be estimated (instead of TK)
 #' @return the lower and upper bounds of the time duration for the last stage
 #' @importFrom lpSolve lp
 #' @export

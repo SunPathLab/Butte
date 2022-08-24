@@ -2,7 +2,7 @@
 % Please edit documentation in R/cnmut.R
 \name{scnaTiming}
 \alias{scnaTiming}
-\title{estimate Timing for each SCNA segment}
+\title{estimate the initiation and arrival time for each SCNA segment given a file containing multiple SCNA segments, and a file containing SSNV data.}
 \usage{
 scnaTiming(
   scnaFile,
@@ -35,10 +35,12 @@ scnaTiming(
 \item{mmut}{minimum number of mutations for running timing analysis}
 
 \item{qmethod}{the method for estimating q (probabilities of a randomly acquired mutation having allele state of aj/Nt)}
+
+\item{B}{number of bootstrap for calculating confidence interval}
 }
 \value{
 list: timing result; timing table (for visualization) and merged CNA data frame. For butte cases (non-identifiable), pi[1] is the lower bound, and pi[2] is the upper bound. piCI[1,] and piCI[2,] are the bootstrapped confidence interval for the two bounds, respectively.
 }
 \description{
-estimate Timing for each SCNA segment
+estimate the initiation and arrival time for each SCNA segment given a file containing multiple SCNA segments, and a file containing SSNV data.
 }

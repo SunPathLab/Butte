@@ -23,7 +23,21 @@
 
 \item{m}{vector of total read depth for SSNVs}
 
-\item{xGreaterZero}{determines whether the likelihood will account for the fact that only observe X[i]>0}
+\item{alleleSet}{vector of possible allele frequencies}
+
+\item{alleleFreq}{the observed allele frequencies}
+
+\item{history}{a list of possible evolutionary history matrices, see also function "cnmutHistory"}
+
+\item{type}{set it to be either "identifiable" or "butte"}
+
+\item{init}{the initial values of vector q (probability of a randomly acquired SSNV having each allele state)}
+
+\item{maxiter}{maximum number of iterations in calculation q}
+
+\item{tol}{the tolerance in the convergence of q}
+
+\item{xGreaterZero}{determines whether the likelihood will account for the fact that only observe SSNVs with mutant read count x[i] > 0}
 }
 \value{
 A list of possible matrices

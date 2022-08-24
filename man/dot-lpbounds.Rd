@@ -2,16 +2,18 @@
 % Please edit documentation in R/butte.R
 \name{.lpbounds}
 \alias{.lpbounds}
-\title{Use linear programming to solve the bounds of TK}
+\title{Use linear programming to solve the bounds of TK or T0}
 \usage{
 .lpbounds(q, possible_histories, scost = 100, p0 = FALSE)
 }
 \arguments{
 \item{q}{q estimated from data}
 
-\item{possible_histories}{matrices of possible SCNA-SSNV histories}
+\item{possible_histories}{matrices of possible SCNA-SSNV histories, see also function "cnmutHistory"}
 
 \item{scost}{the cost for slack variables (default 100)}
+
+\item{p0}{logical, if TRUE, the upper bounds for T0 will be estimated (instead of TK)}
 }
 \value{
 the lower and upper bounds of the time duration for the last stage

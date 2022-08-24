@@ -6,7 +6,14 @@
 #'
 #' @param x vector of number of reads supporting SSNVs
 #' @param m vector of total read depth for SSNVs
-#' @param xGreaterZero determines whether the likelihood will account for the fact that only observe X[i]>0
+#' @param alleleSet vector of possible allele frequencies
+#' @param alleleFreq the observed allele frequencies
+#' @param history a list of possible evolutionary history matrices, see also function "cnmutHistory"
+#' @param type set it to be either "identifiable" or "butte"
+#' @param init the initial values of vector q (probability of a randomly acquired SSNV having each allele state)
+#' @param maxiter maximum number of iterations in calculation q
+#' @param tol the tolerance in the convergence of q
+#' @param xGreaterZero determines whether the likelihood will account for the fact that only observe SSNVs with mutant read count x[i] > 0
 #' @return A list of possible matrices
 .estimateQ <- function(x,m,alleleSet,alleleFreq=NULL,history,type=c("identifiable","butte"),
                        init=NULL,maxiter=100, tol=0.0001,xGreaterZero=TRUE, useGradient=FALSE) {
