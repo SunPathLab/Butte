@@ -15,6 +15,9 @@ _________/           \___________________/      1         \__________
 
 BoUnds of Time Till Expansion, a computational framework to investigate the SCNA arrival time in the somatic evolution toward the most recent common ancestor of tumor sample(s).
 
+## Intro
+
+Butte is a computational framework to calculate the arrival time and initiation time of a clonal somatic copy number alteration (SCNA) observed in patient tumor sample(s). Currently the method focuses on copy number gains. A genomic region at an observed clonal SCNA state has evolved during the timeline from the germline to the founder cell of the clonal expansion. The timeline can be divided into three fractions in term of the copy number evolution. The first time fraction (T0) is the SCNA initiation time when the first gain occurs. The third fraction (TK) is the arrival time which measure the delay from the last gain to the start of population expansion. Butte can estimate the initation time and arrival time of an SCNA (with the total copy number as high as 7) given the read counts of somatic single nucleotide variants (SSNVs) occurred within corresponding genomic region and tumor purity. To do so, Butte adopts EM algorithm to find the allele state distribution of SSNVs. Then it either directly solve the time fraction (for SCNAs with identifiable history matrices), or adopts linear programming to calculate the upper bounds of these time fractions if multiple history matrices can exist for the SCNA or the underlying linear system is underdetermined.
 
 ## Installation
 
@@ -41,8 +44,7 @@ First, load the example input data provided in /demo.
 library("Butte")
 load("exampleData.rda") #This example data is provided in the directory "demo"
 ```
-exampleData.rda have two dataset: exampleData_CN41 and exampleData_CN62, which are
-data of two different segments with copy number states 4:1 and 6:2 respectively. In this section, we will use exampleData_CN62.
+exampleData.rda has two datasets: exampleData_CN41 and exampleData_CN62, which contains the input data for two SCNA segments with copy number states at 4:1 and 6:2, respectively. In the following example, we will use exampleData_CN62.
 
 Specify following values:
 ```sh
@@ -56,7 +58,8 @@ Now run the function Butte:
 ```sh
 Result = Butte(x=point_mutation_read_counts , m=read_depths , history=history_matrices , nt=6, nb=2, qmethod="fullMLE", type = timing_type , bootstrapCI="bootstrap", purity=sample_purity , B=100)
 ```
-One can get the timing estimation from `Result$pi`. Since in 6:2 is an unidentifiable CN state, an upper and lower bound of timing are hence provided instead. `Result$pi` provides the confidence interval of the estimated bounds.
+
+6:2 is an unidentifiable CN state, `Result$pi` outputs the upper bounds of the arrival time (TK) and initiation time (T0). `Result$piCI` provides the confidence interval of the upper bounds.
 
 
 ## Batch Analysis
@@ -107,6 +110,8 @@ XXXccf: cancer cell fraction of the SSNV
 XXXccfSD: standard deviation of ccf  
 pubOrSub: if the mutation is public or private (subclonal).
 ```
+
+see [the pdf manual of functions in Butte](https://github.com/SunPathLab/Butte/blob/main/man/Butte_0.0.0.9000.pdf) 
 
 
 ## Reference
