@@ -56,7 +56,8 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         history = cnmutHistory(nt = nt, nb = nb)
     }
     message(paste0("possible history matrices: ", length(history)))
-    
+
+    message(paste(type, collapse="\t"))
     if (missing(type)) {     #type is not defined
         # group1: one group with an unique and identifiable history matrix A
         if (length(history) == 1 & dim(history[[1]])[1] == dim(history[[1]])[2])  #2:0 3:1 3:0 4:1
