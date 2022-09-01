@@ -57,7 +57,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
     }
     message(paste0("possible history matrices: ", length(history)))
     
-    if (length(type) > 1) {      #type is not defined
+    if (missing(type) > 1) {     #type is not defined
         # group1: one group with an unique and identifiable history matrix A
         if (length(history) == 1 & dim(history[[1]])[1] == dim(history[[1]])[2])  #2:0 3:1 3:0 4:1
             type = "identifiable"
