@@ -55,7 +55,8 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
     if (missing(history)){       #history is not defined
         history = cnmutHistory(nt = nt, nb = nb)
     }
-
+    message(paste0("possible history matrices: ", length(history)))
+    
     if (length(type) > 1) {      #type is not defined
         # group1: one group with an unique and identifiable history matrix A
         if (length(history) == 1 & dim(history[[1]])[1] == dim(history[[1]])[2])  #2:0 3:1 3:0 4:1
@@ -64,6 +65,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
         else
             type = "butte"
     }
+    message(type)
 
     #input checking done, start working...
     A <- history[[1]]  #use the first history to calculate n steps
