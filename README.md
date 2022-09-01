@@ -54,12 +54,12 @@ example = exampleData_CN62
 mutant_read_depth = example$x
 total_depth = example$m
 tumor_purity = example$purity
-type = "butte"    #type should be set to "identifiable" for the following 
+type = "butte"    #type should be set to "identifiable" for the following
 
-Result = Butte(x=mutant_read_depth, m=total_depth, history=history_matrices, nt=totalCN, nb=minorCN, qmethod="fullMLE", bootstrapCI="bootstrap", purity=tumor_purity, B=100)
+Result = Butte(x=mutant_read_depth, m=total_depth, nt=totalCN, nb=minorCN, qmethod="fullMLE", bootstrapCI="bootstrap", purity=tumor_purity, B=50)
 ```
 
-SCNA `6:2` has multiple possible histories, `Butte` calculates the upper bounds of estimated timing. For `4:1` (in `exampleData_CN41`), the timing will be solved exactly instead. `Result$pi` outputs the upper bounds of the arrival time (pK) and initiation time (p0). `Result$piCI` provides the confidence interval of the upper bounds.
+SCNA `6:2` has multiple possible histories, `Butte` calculates the upper bounds of estimated timing. `Result$pi` outputs the upper bounds of the arrival time (pK) and initiation time (p0). `Result$piCI` provides the confidence interval of the upper bounds. For `4:1` (in `exampleData_CN41`), the timing will be solved exactly instead, and the output Resullt$pi would contain the solved timing for each time stages.
 
 
 ## Batch Analysis
@@ -67,14 +67,15 @@ We also provides a batch version of SCNA timing analysis, `scnaTiming()`.
 
 An example usage is shown below:
 ```ruby
-library(Butte)
-#run scnaTiming
-
+scnaFile = "demo/example_scna.tsv"
+ssnvFile = "demo/example_ssnv.tsv"
+sampleName = "ES8_CA_A03"    #this sample must be contained in the ssnv file with the same name (see column head instruction of ssnvFile)
 butte.res = scnaTiming(scnaFile=scnaFile, ssnvFile=ssnvFile, sn=sampleName, outname=sampleName,
-                                                   public=TRUE, skipchunk = 100, B=100, pubOrSub="pubOrSub")
+                                                   public=TRUE, skipchunk = 100, B=10, pubOrSub="pubOrSub")
 
 #save results
 saveRDS(butte.res, file=paste0(outdir, "/butte.res.", sampleName, ".rds"))
+#the timing results are saved in the following table
 write.table(butte.res[[2]], file=paste0(outdir, "/butte.tab.", sampleName, ".tsv"), sep="\t", quote=F, row.names=F)
 ```
 
@@ -100,7 +101,7 @@ logcopynumberratio: log2 transformed copy number ratio between tumor and normal
 
 `ssnvFile` is a tab delimited file with SSNVs (somatic single nucleotide variants) as rows. The columns are defined as follows:
 ```
-Assuming XXX is the name of a sample:
+Assuming `XXX` is the sampleName:
 chr: chromosome id
 pos: the coordinate of the SSNV
 XXXmafc: allele frequency (alternative read count/total depth)  

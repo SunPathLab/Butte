@@ -65,7 +65,7 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
     } else {
       if (type == "identifiable"){  type = "butte" }       #this is an butte case, setting is wrong
     }
-    message(type)
+    #message(type)
 
     #input checking done, start working...
     A <- history[[1]]  #use the first history to calculate n steps
