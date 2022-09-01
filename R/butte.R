@@ -55,16 +55,15 @@ Butte <- function(x, m, history, nt, nb, qmethod=c("fullMLE","partialMLE"),
     if (missing(history)){       #history is not defined
         history = cnmutHistory(nt = nt, nb = nb)
     }
-    message(paste0("possible history matrices: ", length(history)))
+    #message(paste0("possible history matrices: ", length(history)))
 
-    message(paste(type, collapse="\t"))
-    if (missing(type)) {     #type is not defined
-        # group1: one group with an unique and identifiable history matrix A
-        if (length(history) == 1 & dim(history[[1]])[1] == dim(history[[1]])[2])  #2:0 3:1 3:0 4:1
-            type = "identifiable"
-        # group2: the other does not have identifiable history, or there are mulitple A
-        else
-            type = "butte"
+    # re-check if the type arg is appropriate
+    # group1: one group with an unique and identifiable history matrix A
+    if (length(history) == 1 & dim(history[[1]])[1] == dim(history[[1]])[2]){  #2:0 3:1 3:0 4:1
+      if (type == "butte"){ type = "identifiable" }        #this is an identifable case, setting is wrong
+    # group2: the other does not have identifiable history, or there are mulitple A
+    } else {
+      if (type == "identifiable"){  type = "butte" }       #this is an butte case, setting is wrong
     }
     message(type)
 
