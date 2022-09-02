@@ -71,7 +71,7 @@ scnaFile = "demo/example_scna.tsv"
 ssnvFile = "demo/example_ssnv.tsv"
 sampleName = "ES8_CA_A03"    #this sample must be contained in the ssnv file with the same name (see column head instruction of ssnvFile)
 butte.res = scnaTiming(scnaFile=scnaFile, ssnvFile=ssnvFile, sn=sampleName, outname=sampleName,
-                                                   public=TRUE, skipchunk = 100, B=10, pubOrSub="pubOrSub")
+                                                   public=TRUE, skipchunk = 100, B=100, pubOrSub="pubOrSub")
 
 #save results
 saveRDS(butte.res, file=paste0(outdir, "/butte.res.", sampleName, ".rds"))
@@ -83,7 +83,7 @@ write.table(butte.res[[2]], file=paste0(outdir, "/butte.tab.", sampleName, ".tsv
 
 `scnaFile` is a tab delimited file of SCNA (somatic copy number alteration) segments as rows. The columns are defined as follows:
 ```
-chrom: chromosome id
+**chrom**: chromosome id
 loc.start: segment start (coordinate)
 loc.end: segment end
 num.mark: number of SNPs used for SCNA calling for the segment
