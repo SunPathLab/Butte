@@ -83,7 +83,7 @@ write.table(butte.res[[2]], file=paste0(outdir, "/butte.tab.", sampleName, ".tsv
 
 `scnaFile` is a tab delimited file of SCNA (somatic copy number alteration) segments as rows. The columns are defined as follows:
 ```
-**chrom**: chromosome id
+chrom: chromosome id
 loc.start: segment start (coordinate)
 loc.end: segment end
 num.mark: number of SNPs used for SCNA calling for the segment
