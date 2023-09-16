@@ -30,7 +30,7 @@ scnaTiming(
 
 \item{pubOrSub}{the colname for column indicating if the mutation is public or not}
 
-\item{skipchunk}{segments with number of data points (probes) no more than this number will be skipped}
+\item{skipchunk}{segments with number of data points (probes) no more than this number will be skipped, set it to zero if not skipped}
 
 \item{mmut}{minimum number of mutations for running timing analysis}
 

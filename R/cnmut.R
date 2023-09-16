@@ -9,7 +9,7 @@
 #' @param pubOrSub the colname for column indicating if the mutation is public or not
 #' @param mmut minimum number of mutations for running timing analysis
 #' @param qmethod the method for estimating q (probabilities of a randomly acquired mutation having allele state of aj/Nt)
-#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped
+#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped, set it to zero if not skipped
 #' @param B number of bootstrap for calculating confidence interval
 #' @return list: timing result; timing table (for visualization) and merged CNA data frame. For butte cases (non-identifiable), pi[1] is the lower bound, and pi[2] is the upper bound. piCI[1,] and piCI[2,] are the bootstrapped confidence interval for the two bounds, respectively.
 #' @export
@@ -121,8 +121,10 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
 #' @importFrom dplyr arrange
 #' @export
 scnaInput <- function(scnaFile, skipchunk=19) {
-    #smooth the CN profie according to the minimum segment size (to skip)
-    scna = mergeCNA(cnFile = scnaFile, skipchunk = skipchunk)
+    if (skipchunk > 0) {   
+      #smooth the CN profie according to the minimum segment size (to skip)
+      scna = mergeCNA(cnFile = scnaFile, skipchunk = skipchunk)
+    }
     #sort by chr and coordinates
     scna = dplyr::arrange(scna, chrom, loc.start, loc.end)
     return(scna)    
