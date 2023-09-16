@@ -11,7 +11,7 @@ cnmutData(scnaFile, ssnvFile, skipchunk = 19)
 
 \item{ssnvFile}{the SSNV file}
 
-\item{skipchunk}{segments with number of data points (probes) no more than this number will be skipped}
+\item{skipchunk}{segments with number of data points (probes) no more than this number will be skipped, set it to zero if not skipped}
 }
 \value{
 list of data input for running butte

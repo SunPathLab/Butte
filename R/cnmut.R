@@ -116,11 +116,12 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
 #' 
 #'
 #' @param scnaFile the SCNA segmentation file
-#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped 
+#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped, set it to zero if not skipped
 #' @return sorted scna segmentation data frame
 #' @importFrom dplyr arrange
 #' @export
 scnaInput <- function(scnaFile, skipchunk=19) {
+    scna = scnaFile
     if (skipchunk > 0) {   
       #smooth the CN profie according to the minimum segment size (to skip)
       scna = mergeCNA(cnFile = scnaFile, skipchunk = skipchunk)
@@ -160,7 +161,7 @@ ssnvInput <- function(snvFile) {
 #'
 #' @param scnaFile the SCNA segmentation file 
 #' @param ssnvFile the SSNV file
-#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped 
+#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped, set it to zero if not skipped 
 #' @return list of data input for running butte
 #' @importFrom GenomicRanges GRanges
 #' @importFrom GenomicRanges findOverlaps
@@ -213,7 +214,7 @@ cnmutData <- function(scnaFile, ssnvFile, skipchunk = 19) {
 #' merge the two neighboring segments by skipping the small segment.  
 #'
 #' @param cnFile the SCNA segmentation file 
-#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped 
+#' @param skipchunk segments with number of data points (probes) no more than this number will be skipped, set it to zero if not skipped 
 #' @param correctMale logical, whether or not divide by 2 for the X chromosome (testing)
 #' @return data frame of the merged CNA segmentation
 #' @export

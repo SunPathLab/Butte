@@ -9,7 +9,7 @@ mergeCNA(cnFile, skipchunk = 19, correctMale = FALSE)
 \arguments{
 \item{cnFile}{the SCNA segmentation file}
 
-\item{skipchunk}{segments with number of data points (probes) no more than this number will be skipped}
+\item{skipchunk}{segments with number of data points (probes) no more than this number will be skipped, set it to zero if not skipped}
 
 \item{correctMale}{logical, whether or not divide by 2 for the X chromosome (testing)}
 }
