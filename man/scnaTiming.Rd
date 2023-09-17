@@ -14,7 +14,8 @@ scnaTiming(
   skipchunk = 19,
   mmut = 10,
   qmethod = "fullMLE",
-  B = 100
+  B = 100,
+  purity = NA
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ scnaTiming(
 \item{qmethod}{the method for estimating q (probabilities of a randomly acquired mutation having allele state of aj/Nt)}
 
 \item{B}{number of bootstrap for calculating confidence interval}
+
+\item{purity}{the purity of the tumor sample. if not specified, the program will search in the ssnv file for the column with the header as sn"pu" (see example input)}
 }
 \value{
 list: timing result; timing table (for visualization) and merged CNA data frame. For butte cases (non-identifiable), pi[1] is the lower bound, and pi[2] is the upper bound. piCI[1,] and piCI[2,] are the bootstrapped confidence interval for the two bounds, respectively.
