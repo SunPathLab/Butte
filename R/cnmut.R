@@ -58,7 +58,7 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
             next
         }
 
-        if (is.na(purity)) {
+        if (is.na(purity)) {  #if purity is not defined
           purity = chopped[,paste(sn,"pu",sep="")][1]
         }
         
@@ -125,10 +125,8 @@ scnaTiming <- function(scnaFile, ssnvFile, sn, outname, public=FALSE, pubOrSub="
 #' @export
 scnaInput <- function(scnaFile, skipchunk=19) {
     scna = scnaFile
-    if (skipchunk > 0) {   
-      #smooth the CN profie according to the minimum segment size (to skip)
-      scna = mergeCNA(cnFile = scnaFile, skipchunk = skipchunk)
-    }
+    #smooth the CN profie according to the minimum segment size (to skip)
+    scna = mergeCNA(cnFile = scnaFile, skipchunk = skipchunk)
     #sort by chr and coordinates
     scna = dplyr::arrange(scna, chrom, loc.start, loc.end)
     return(scna)    
@@ -228,6 +226,12 @@ mergeCNA <- function(cnFile, skipchunk = 19, correctMale = FALSE) {
     }
     message(cnFile)
     cnvA = read.delim(cnFile, stringsAsFactors=FALSE, check.names=FALSE)
+    
+    if (skipchunk < 1) {  #if skipchunk is not defined, then return and stop here
+        return(cnvA)
+    }
+
+    #here we go to the merging
     cnvA = cnvA[which(cnvA$num.mark > skipchunk),]                               #skip two few marks
     cp2 <- c(which(cnvA$logcopynumberratio[-1] != cnvA$logcopynumberratio[-nrow(cnvA)] |
                        cnvA$chrom[-1] != cnvA$chrom[-nrow(cnvA)] |
